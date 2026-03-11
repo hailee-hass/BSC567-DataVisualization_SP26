@@ -1,0 +1,61 @@
+---
+title: "Diamond Sizes"
+author: "Hailee Hass"
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: inline
+bibliography: references.bib
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+#| label: group
+#| include: false
+
+library(tidyverse)
+
+smaller <- diamonds |>
+  filter(carat <= 2.5)
+```
+
+We have data about 'r nrow(diamonds)' diamonds. Only 'r nrow(diamonds) - nrow(smaller)' are larger than 2.5 carats. The distribution of the remainder is shown below:
+
+```{r}
+#| label: plot-smaller-diamonds
+#| echo: false
+
+smaller |>
+  ggplot(aes(x= carat)) + geom_freqpoly(binwidth= 0.01)
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+-   [@wickham2019]one
+
+-   two
+
+-   three
+
+R- definition
+
+![](https://news.ua.edu/wp-content/uploads/2021/08/feature_16x9_quad_autumn_leaves.jpg)
+
+```{r}
+#| label: simple-addition
+1+1
+```
+
+```{r}
+#| label: simple-multiplication
+#| eval: false
+
+2*3
+```
