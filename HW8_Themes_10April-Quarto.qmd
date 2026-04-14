@@ -1,0 +1,143 @@
+---
+title: "HW 8 - Themes"
+author: "Hailee Hass"
+format: html
+editor: visual
+---
+
+## HW 8 - Due 10 April 2026
+
+[Instructions:]{.underline}
+
+Find a plot in one of the journals you read regularly and see if you can create a custom theme that mimics the journal's style. Don't worry about the data (just use one of the base plots from this week) and focus on the plot elements we have learned about this week. On Blackboard, upload 1) your annotated standalone code (with the call for the data frame) as a .R file and 2) a screenshot of the plot you used as your template.
+
+[AI Statement:]{.underline}
+
+I used Google to help me solve some of my Quarto-related problems. I'm including this here because I'm pretty certain Google Gemini is fairly well embedded within all of Google's search results. However, I did not knowingly use any form of generative AI to complete this homework assignment.
+
+## Inspiration Theme
+
+I often read papers from *The American Biology Teacher* now that I've switched my sub-field from ecology to discipline-based education research. Recently, I was reading a paper from Donkoh, Maruca, and Meir, and was inspired to re-create a 4-panel box-and-whisker plot they had in their article. While the DOI linked above is restricted to members and subscribers of National Associate of Biology Teachers (NABT), I have attached a photo of the figure from a physical copy of the journal I have.
+
+![Figure 1 from Donkoh, Maruca, & Meir (2025). This figure is the inspiration for my simple, custom theme for HW 8.](ABT_Fig1/ABT_Fig1.png)
+
+Before I create my own theme, let's call some libraries and import some data for my final project. Stick with me, I'm going to tidy the data here, too.
+
+```{r}
+#| label: load-packages
+#| echo: false
+
+library(tidyverse)
+``
+```
+
+Here's the long part.
+
+```{r}
+#| label: tidy-data
+#| echo: false
+
+library(tidyverse)
+
+#Important and tidy data
+ifat_rawdata <- read.csv("STUDENTGrades-Exam3_BSC108_S25.csv") #401 obs of 9 variables
+
+smaller_data <- ifat_rawdata %>%
+  mutate(
+    Last = NULL, 
+    First = NULL, 
+    CWID = NULL, 
+    Extra.credit = NULL, 
+    ExamColor = NULL
+  ) #remove unnecessary data; 401 obs pf 4 variables
+
+view(smaller_data)
+
+avgdata <- read.csv("BSC108_IFAT_dataFA22-SP25.csv") #20 obs of 10 var; need to generate random data for these averages
+
+view(avgdata)
+
+reducedavg <-  avgdata %>%
+  mutate(
+    Class = NULL,
+    Exam = NULL, 
+    NumExamType = NULL
+  ) #removing unneeded columns
+view(reducedavg)
+
+# Generate the data for each term, instructor, section (this is where I'm sure it could be more concise)
+# Set seed each time to get reproduceable data; not necessary but I want the same numbers
+#Fall 2022
+set.seed(213)
+FA22_J_1 <- rnorm(n = 143, mean = 73.88, sd = 23.96)
+mean(FA22_J_1)
+sd(FA22_J_1) 
+
+set.seed(213)
+FA22_J_2 <- rnorm(n = 94, mean = 77.36, sd = NULL)
+
+set.seed(213)
+FA22_B_3 <- rnorm(n = 142, mean = 75.08, sd = 19.82)
+
+set.seed(213)
+FA22_B_4 <- rnorm(n = 70, mean = 80.22, sd = 13.32)
+
+#Fall 2023
+set.seed(213)
+FA23_J_1 <- rnorm(n = 122, mean = 79, sd = 15.62)
+
+set.seed(213)
+FA23_J_2 <- rnorm(n = 106, mean = 75.08, sd = 19.46)
+
+set.seed(213)
+FA23_B_3 <- rnorm(n = 119, mean = 75.52, sd = 17.92)
+
+set.seed(213)
+FA23_B_4 <- rnorm(n = 79, mean = 73.72, sd = 24.09)
+
+#Fall 2024
+set.seed(213)
+FA24_J_1 <- rnorm(n = 119, mean = 75.35, sd = 18.63)
+
+set.seed(213)
+FA24_J_2 <- rnorm(n = 119, mean = 75.2, sd = 21.42)
+
+set.seed(213)
+FA24_B_3 <- rnorm(n = 112, mean = 70.46, sd = 17.9)
+
+set.seed(213)
+FA24_B_4 <- rnorm(n = 116, mean = 72.48, sd = 18.77)
+
+# Spring 2023
+set.seed(213)
+SP23_c_3 <- rnorm(n = 124, mean = 72.3, sd = 16.91)
+
+set.seed(213)
+SP23_c_4 <- rnorm(n = 119, mean = 65.79, sd = 19.39)
+
+set.seed(213)
+SP23_B_1 <- rnorm(n = 109, mean = 68.73, sd = 19.02)
+
+set.seed(213)
+SP23_B_2 <- rnorm(n = 60, mean = 69.46, sd = 23.36)
+
+#Spring 2024
+set.seed(213)
+SP24_c_3 <- rnorm(n = 125, mean = 71.43, sd = 16.27)
+
+set.seed(213)
+SP24_c_4 <- rnorm(n = 118, mean = 66.21, sd = 15.16)
+
+set.seed(213)
+SP24_B_1 <- rnorm(n = 136, mean = 66.82, sd = 23.72)
+
+set.seed(213)
+SP24_B_2 <- rnorm(n = 71, mean = 71.35, sd = 20.11)
+```
+
+Let's join the newly-generated data from Fall 2022 to Spring 2024 (where we only had average, SD, and enrollment) with Spring 2025 data where I had individual student data.
+
+```{r}
+#| label: join
+#| echo: false
+```
